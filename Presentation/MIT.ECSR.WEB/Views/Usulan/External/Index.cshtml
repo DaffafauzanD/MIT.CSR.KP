@@ -1,0 +1,115 @@
+﻿<div class="row mb-1">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="card border-light">
+            <div class="card-header pb-0">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="">Jenis Program</label>
+                        <div class="input-group input-group-sm" id="Program-JenisProgram-Container">
+                            <select class="form-control form-control-sm" id="Program-JenisProgram" style="height:33px;">
+                                <option selected value="">-- All--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="">Status</label>
+                        <div class="input-group input-group-sm">
+                            <select class="form-control form-control-sm" id="Program-Status" style="height:33px;">
+                                <option selected value="">-- All--</option>
+                                <option value="1">Draft</option>
+                                <option value="2">Open</option>
+                                <option value="3">On Progress</option>
+                                <option value="4">Closed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Cari</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control form-control-sm" id="Program-Search" placeholder="Nama Program" aria-describedby="basic-addon7">
+                        </div>
+                    </div>
+                    <div class=" col-md-3 d-flex justify-content-end align-self-end">
+                        <a href="@Url.Action("Add","Program",  new { Area = "" })" class="btn btn-info"><i class="ft-plus-circle icon-left"></i><span>Tambah</span></a>
+                    </div>
+                </div>
+                <hr />
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="Program-table">
+                                <thead class="bg-info white text-center">
+                                    <tr>
+                                        <th width="5%" class="text-center">No</th>
+                                        <th width="10%">Jenis</th>
+                                        <th width="10%">Program</th>
+                                        <th width="15%">Tanggal</th>
+                                        <th width="5%">Kegiatan</th>
+                                        <th width="10%">Unit/Rp</th>
+                                        <th width="15%">Tanggal Pengajuan</th>
+                                        <th width="5%">Status</th>
+                                        <th width="5%">Note</th>
+                                        <th width="5%">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="">
+
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                  
+                                        <td>Bidang Ekonomi</td>
+                                        <td>Bidang Ekonomi</td>
+                                        <td>Bidang Ekonomi</td>
+                                        <td>Bidang Ekonomi</td>
+                                        <td>Bidang Ekonomi</td>
+                                        <td>Bidang Ekonomi</td>
+                                        <td>prorgam 100 UKM baru </td>
+                                        <td>
+                                            <ul style="list-style-type: none;padding-left: 0;">
+                                                <li>15 December, 2022</li>
+                                                <li>28 February, 2023</li>
+                                            </ul>
+                                        </td>
+
+                                        <td class="text-center">
+                                            <div class="badge badge-info">
+                                                <span>
+
+
+                                                    <a data-toggle="modal" data-target="#MonitoringInternal" href="#" class="card-link">Detail</a>
+
+                                                </span>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-1 justify-content-between">
+                    <div class="col-md-7 align-self-center">
+                        <span class="d-inline-block mr-1">
+                            <select class="form-control form-control-sm" id="Program-page_select">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                        </span>
+                        <span>
+                            Showing <b id="Program-from_page"></b> To <b id="Program-to_page"></b> From <b id="Program-total"></b> Total Data
+                        </span>
+                    </div>
+                    <div class="col-md-5 align-self-center">
+                        <div class="float-right xs-1" id="Program-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

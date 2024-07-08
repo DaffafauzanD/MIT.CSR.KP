@@ -1,0 +1,172 @@
+﻿<style>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/app-assets/vendors/tagator/fm.tagator.jquery.css")" >
+</style>
+
+<div class="row mb-1">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="card border-light">
+            <div class="card-header pb-0">
+                <div class="row">
+                    <div class="col-md-12 mb-1">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="">Cari Perusahaan</label>
+                                <input type="text" class="form-control form-control-sm" id="Progress-Perusahaan" onchange="ListProgress()" placeholder="Nama Perusahaan" aria-describedby="basic-addon7">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="">Program</label>
+                                <div class="input-group input-group-sm" id="Progress-JenisProgram-Container">
+                                    <select class="form-control form-control-sm" id="Progress-JenisProgram" style="height:33px;" onchange="ListProgress()">
+                                        <option selected value="">-- All--</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="">Kegiatan</label>
+                                <div class="input-group input-group-sm" id="Progress-Kegiatan-Container">
+                                    <select class="form-control form-control-sm" id="Progress-Kegiatan" style="height:33px;">
+                                        <option selected value=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Cari</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control form-control-sm" id="Progress-Search" placeholder="Sub Kegiatan" onchange="ListProgress()" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="">Status</label>
+                        <div class="input-group input-group-sm">
+                            <select class="form-control form-control-sm" id="Progress-Status" style="height:33px;" onchange="ListProgress()">
+                                <option selected value="">-- All--</option>
+                                <option value="1">Waiting</option>
+                                <option value="2">Approve</option>
+                                <option value="3">Reject</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <hr />
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="Progress-table">
+                                <thead class="bg-info white text-center">
+                                    <tr>
+                                        <th width="5%" class="text-center">No</th>
+                                        <th width="10%">Perusahaan</th>
+                                        <th width="10%">Program </th>
+                                        <th width="10%">kegiatan</th>
+                                        <th width="10%">Sub Kegiatan</th>
+                                        <th width="5%">Unit</th>
+                                        <th width="10%">Deskripsi</th>
+                                        <th width="20%">Tanggal Progres</th>
+                                        <th width="5%">Status</th>
+                                        <th width="5%">Note</th>
+                                        <th width="20%">Update By</th>
+                                        <th width="5%">Aksi</th>
+                                        
+                                    </tr>
+
+                          @*      <th width="5%" class="text-center">No</th>
+                                <th width="10%">Perusahaan</th>
+                                <th width="10%">Program</th>
+                                <th width="15%">kegiatan </th>
+                                <th width="10%"> sub kegitan</th>
+                                <th width="10%">unit</th>
+                                <th width="5%">deskripai </th>
+                                <th width="5%">tanggal update</th>
+                                <th width="5%">status </th>
+                                <th width="5%">note </th>
+                                <th width="5%">Aksi</th>*@
+
+                                </thead>
+                                <tbody id="Progress-tbody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-1 justify-content-between">
+                    <div class="col-md-7 align-self-center">
+                        <span class="d-inline-block mr-1">
+                            <select class="form-control form-control-sm" id="Progress-page_select">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                        </span>
+                        <span>
+                            Showing <b id="Progress-from_page"></b> To <b id="Progress-to_page"></b> From <b id="Progress-total"></b> Total Data
+                        </span>
+                    </div>
+                    <div class="col-md-5 align-self-center">
+                        <div class="float-right xs-1" id="Progress-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<div class="modal" id="md-Progress_Approval" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Approval</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="Progress_Approval-Id" class="form-control form-control-sm input-sm clear" hidden />
+                <div class="card-content">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-1">
+                                <label class="font-weight-bold ">Status</label>
+                            </div>
+                            <div class="col-md-6 mb-1">
+                                <div class="input-group">
+                                    <select class="form-control form-control-sm" id="Progress_Approval-Status" style="height:33px;">
+                                        <option selected value="true">Approve</option>
+                                        <option value="false">Reject</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-1">
+                                <div>
+                                    <label for="basicTextarea" class="cursor-pointer font-weight-bold">Notes</label>
+                                    <fieldset class="form-group">
+                                        <textarea class="form-control" id="Progress_Approval-Notes" rows="3"></textarea>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="ApprovalProgress()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@await Html.PartialAsync("~/Views/Monitoring/_Modal/_ModalApproval.cshtml")
+
+
+@section scripts{
+
+}

@@ -1,0 +1,19 @@
+﻿@{
+}
+
+
+<div class="content-wrapper">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 my-1">
+        <div class="row" id="program_list">
+            <div class="col-12 d-flex justify-content-center" id="show_more_program">
+                <button class="btn btn-info" onClick="ListProgram()" hidden>Show More</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@await Html.PartialAsync("~/Views/Monitoring/_Modal/_ModalAdd.cshtml")
+
+@section scripts{
+}

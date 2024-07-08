@@ -1,0 +1,62 @@
+﻿@model MIT.ECSR.Shared.Attributes.TokenUserObject
+@if (Model != null)
+{
+    <div class="header-navbar navbar-expand-sm navbar navbar-horizontal navbar-fixed navbar-dark navbar-without-dd-arrow navbar-shadow" role="navigation" data-menu="menu-wrapper">
+        <div class="navbar-container main-menu-content" data-menu="menu-container">
+            <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation">
+                @if (Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.DPMPTSPP.ToString()) || Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.FORUM.ToString()))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","Monitoring",  new { Area = "" })"><i class="la la-tachometer"></i><span>Monitoring Kegiatan</span></a>
+                    </li>
+                }
+                @if (Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.BAPPEDA.ToString()) || Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.ECBANG.ToString()) || Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.DPMPTSPP.ToString()))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","Dashboard",  new { Area = "" })"><i class="la la-bar-chart-o"></i><span>Dashboard</span></a>
+                    </li>
+                }
+                @if (Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.PERANGKAT.ToString()) || Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.OPD.ToString())
+               || Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.BAPPEDA.ToString()) || Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.ECBANG.ToString()) || Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.DPMPTSPP.ToString()))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","Program",  new { Area = "" })"><i class="la la-newspaper-o"></i><span>Program</span></a>
+                    </li>
+                }
+                @if (Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.FORUM.ToString()) 
+                || Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.BAPPEDA.ToString())
+                || Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.ECBANG.ToString())
+                || Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.DPMPTSPP.ToString()))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","Penawaran",  new { Area = "" })"><i class="la la-money"></i><span>Penawaran</span></a>
+                    </li>
+                }
+               
+                <li class="nav-item d-none">
+                    <a class="nav-link" href="@Url.Action("Index","Usulan",  new { Area = "" })"><i class="la la-sticky-note"></i><span>Usulan</span></a>
+                </li>
+
+                @if (Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.BAPPEDA.ToString()) || Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.ECBANG.ToString()) || Model.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.DPMPTSPP.ToString()))
+                {
+                    <li class="dropdown nav-item" data-menu="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown">
+                            <i class="la la-cogs"></i><span>Setting</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li data-menu="">
+                                <a class="dropdown-item" href="@Url.Action("User","Setting",  new { Area = "" })" data-toggle="dropdown">User</a>
+                            </li>
+                            <li data-menu="" hidden>
+                                <a class="dropdown-item" href="@Url.Action("JenisProgram","Setting",  new { Area = "" })" data-toggle="dropdown">Jenis Program</a>
+                            </li>
+                            <li data-menu="">
+                                <a class="dropdown-item" href="@Url.Action("Banner","Setting",  new { Area = "" })" data-toggle="dropdown">Banner</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}

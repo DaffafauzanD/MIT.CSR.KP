@@ -1,0 +1,76 @@
+﻿
+<section id="Section-RiwayatPenawaran">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header border border-light border-top-0 border-right-0 border-left-0">
+                    <div class="row">
+                        <div class="d-flex align-self-center col-md-6 justify-content-start">
+                            <h4>Riwayat Pengajuan</h4>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-3" hidden>
+                            <label class="" >Status</label>
+                            <div class="input-group input-group-sm">
+                                <select class="form-control form-control-sm" id="RiwayatPenawaran-Status" style="height:33px;" onchange="ListPenawaran()">
+                                    <option selected value="">-- All--</option>
+                                    <option value="1">Waiting</option>
+                                    <option value="2">Approve</option>
+                                    <option value="3">Reject</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Cari</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" id="RiwayatPenawaran-Search" placeholder="Kegiatan" aria-describedby="basic-addon7" onchange="ListPenawaran()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover" id="RiwayatPenawaran-table">
+                                        <thead class="bg-info white text-center">
+                                            <tr>
+                                                <th width="5%" class="text-center">No</th>
+                                                <th>Kegiatan</th>
+                                                <th width="10%">Quantity</th>
+                                                <th width="10%">Tgl Pengajuan</th>
+                                                <th width="10%">Status</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="RiwayatPenawaran-tbody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-1 justify-content-between">
+                            <div class="col-md-7 align-self-center">
+                                <span class="d-inline-block mr-1">
+                                    <select class="form-control form-control-sm" id="RiwayatPenawaran-page_select">
+                                        <option value="5">5</option>
+                                        <option value="10" selected>10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </span>
+                                <span>
+                                    Showing <b id="RiwayatPenawaran-from_page"></b> To <b id="RiwayatPenawaran-to_page"></b> From <b id="RiwayatPenawaran-total"></b> Total Data
+                                </span>
+                            </div>
+                            <div class="col-md-5 align-self-center">
+                                <div class="float-right xs-1" id="RiwayatPenawaran-pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

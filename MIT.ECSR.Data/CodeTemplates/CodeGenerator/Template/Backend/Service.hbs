@@ -1,0 +1,259 @@
+﻿using {{namespace}}Core.Model;
+using {{namespace}}Shared.Attributes;
+using Microsoft.Extensions.Logging;
+using WonderKid.DAL.Interface;
+using {{namespace}}Data;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using {{namespace}}Core.Interface;
+using {{namespace}}Core.Model.Request;
+using {{namespace}}Core.Model.Response;
+using AutoMapper;
+using {{namespace}}Core.Helper;
+
+namespace {{namespace}}Core.Services
+{
+    public class {{model}}Service : I{{model}}Service, IListUtility<{{namespace}}Data.Model.{{model}}>
+    {
+        private readonly ILogger _logger;
+        private readonly IMapper _mapper;
+        private readonly IListHelper _listHelper;
+        private readonly IUnitOfWork<ApplicationDBContext> _context;
+        public {{model}}Service(ILogger<{{model}}Service> logger,
+            IMapper mapper,
+            IListHelper listHelper,
+            IUnitOfWork<ApplicationDBContext> context)
+        {
+            _logger = logger;
+            _mapper = mapper;
+            _listHelper = listHelper;
+            _context = context;
+        }
+
+        #region Add
+        public async Task<ServiceResult> Add({{model}}Request request, string inputer)
+        {
+            ServiceResult result = new ServiceResult();
+            try
+            {
+                var data = _mapper.Map<{{namespace}}Data.Model.{{model}}>(request);
+                data.CreateBy = inputer;
+                data.CreateDate = DateTime.Now;
+                var add = await _context.AddSave(data);
+                if (add.Success)
+                    result.OK();
+                else
+                    result.BadRequest(add.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed Add {{model}}", request);
+                result.Error("Failed Add {{model}}", ex.Message);
+            }
+            return result;
+        }
+        #endregion
+
+        #region Edit
+        public async Task<ServiceResult> Edit({{primary_key_type}} id, {{model}}Request request, string inputer)
+        {
+            ServiceResult result = new ServiceResult();
+            try
+            {
+                var existingItems = await _context.Entity<{{namespace}}Data.Model.{{model}}>().Where(d => d.Id == id).FirstOrDefaultAsync();
+                if (existingItems != null)
+                {
+                    var item = _mapper.Map(request, existingItems);
+                    item.{{master_inputer}} = inputer;
+                    item.{{master_updated}} = DateTime.Now;
+                    var update = await _context.UpdateSave(item);
+                    if (update.Success)
+                        result.OK();
+                    else
+                        result.BadRequest(update.Message);
+
+                    return result;
+                }
+                else
+                    result.NotFound($"Id {{model}} {id} Tidak Ditemukan");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed Edit {{model}}", request);
+                result.Error("Failed Edit {{model}}", ex.Message);
+            }
+            return result;
+        }
+        #endregion
+
+        #region Patch
+        public async Task<ServiceResult> Patch({{primary_key_type}} id, JsonPatchDocument<{{model}}Request> request, string inputer)
+        {
+            ServiceResult result = new ServiceResult();
+            try
+            {
+                var existingItems = await _context.Entity<{{namespace}}Data.Model.{{model}}>().Where(d => d.Id == id).FirstOrDefaultAsync();
+                if (existingItems != null)
+                {
+                    var itemToPatch = _mapper.Map<{{model}}Request>(existingItems);
+                    request.ApplyTo(itemToPatch);
+
+                    var item = _mapper.Map(itemToPatch, existingItems);
+                    item.{{master_inputer}} = inputer;
+                    item.{{master_updated}} = DateTime.Now;
+                    var update = await _context.UpdateSave(item);
+                    if (update.Success)
+                        result.OK();
+                    else
+                        result.BadRequest(update.Message);
+
+                    return result;
+                }
+                else
+                    result.NotFound($"Id {{model}} {id} Tidak Ditemukan");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed Edit {{model}}", request);
+                result.Error("Failed Edit {{model}}", ex.Message);
+            }
+            return result;
+        }
+        #endregion
+        {{>master}}
+        #region Active
+        public async Task<ServiceResult> Active({{primary_key_type}} id, bool value, string inputer)
+        {
+            ServiceResult result = new ServiceResult();
+            try
+            {
+                var item = await _context.Entity<{{namespace}}Data.Model.{{model}}>().Where(d => d.Id == id).FirstOrDefaultAsync();
+                if (item != null)
+                {
+                    item.Active = value;
+                    item.UpdateBy = inputer;
+                    item.UpdateDate = DateTime.Now;
+                    var update = await _context.UpdateSave(item);
+                    if (update.Success)
+                        result.OK();
+                    else
+                        result.BadRequest(update.Message);
+
+                    return result;
+                }
+                else
+                    result.NotFound($"Id {{model}} {id} Tidak Ditemukan");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed Active {{model}}", id);
+                result.Error("Failed Active {{model}}", ex.Message);
+            }
+            return result;
+        }
+        #endregion
+        {{<master}}
+        #region Delete
+        public async Task<ServiceResult> Delete({{primary_key_type}} id, string inputer)
+        {
+            ServiceResult result = new ServiceResult();
+            try
+            {
+                var item = await _context.Entity<{{namespace}}Data.Model.{{model}}>().Where(d => d.Id == id).FirstOrDefaultAsync();
+                if (item != null)
+                {
+                    var delete = await _context.DeleteSave(item);
+                    if (delete.Success)
+                        result.OK();
+                    else
+                        result.BadRequest(delete.Message);
+
+                    return result;
+                }
+                else
+                    result.NotFound($"Id {{model}} {id} Tidak Ditemukan");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed Delete {{model}}", id);
+                result.Error("Failed Delete {{model}}", ex.Message);
+            }
+            return result;
+        }
+        #endregion
+
+        #region Get By Id
+        public async Task<ObjectResult<{{model}}Response>> GetById({{primary_key_type}} id)
+        {
+            ObjectResult<{{model}}Response> result = new ObjectResult<{{model}}Response>();
+            try
+            {
+                var item = await _context.Entity<{{namespace}}Data.Model.{{model}}>().Where(d => d.Id == id).FirstOrDefaultAsync();
+                if (item != null)
+                {
+                    result.data = _mapper.Map<{{model}}Response>(item);
+                    result.OK();
+                }
+                else
+                    result.NotFound($"Id {{model}} {id} Tidak Ditemukan");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed Get Detail {{model}}", id);
+                result.Error("Failed Get Detail {{model}}", ex.Message);
+            }
+            return result;
+        }
+        #endregion
+
+        #region List
+        public async Task<ListResult<{{model}}Response>> List(ListRequest request)
+        {
+            ListResult<{{model}}Response> result = new ListResult<{{model}}Response>();
+            try
+            {
+                var list = await _listHelper.List<{{namespace}}Data.Model.{{model}},{{model}}Response>(
+                    _context.Entity<{{namespace}}Data.Model.{{model}}>().AsQueryable(),
+                    this,
+                    request);
+                if (list.Success)
+                {
+                    result.list = list.data;
+                    result.filtered = list.total_filter;
+                    result.count = list.total_count;
+                    result.OK();
+                }
+                else
+                    result.BadRequest(list.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed Get List {{model}}", request);
+                result.Error("Failed Get List {{model}}", ex.Message);
+            }
+            return result;
+        }
+        #endregion
+
+        #region List Utility 
+        public (Expression<Func<{{namespace}}Data.Model.{{model}}, bool>> where, Expression<Func<{{namespace}}Data.Model.{{model}}, object>> order) ListExpression(string search, string field, bool is_where)
+        {
+            Expression<Func<{{namespace}}Data.Model.{{model}}, object>> result_order = null;
+            Expression<Func<{{namespace}}Data.Model.{{model}}, bool>> result_where = null;
+            if (!string.IsNullOrWhiteSpace(search) && !string.IsNullOrWhiteSpace(field))
+            {
+                field = field.Trim().ToLower();
+                search = search.Trim().ToLower();
+                switch (field)
+                {
+{{list_expression}}
+                }
+            }
+            return (result_where, result_order);
+        }
+        #endregion
+
+
+    }
+}

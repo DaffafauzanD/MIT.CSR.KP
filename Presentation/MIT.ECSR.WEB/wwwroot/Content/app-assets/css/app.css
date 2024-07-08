@@ -1,0 +1,7 @@
+@import url("bootstrap-extended.css");
+@import url("colors.css");
+@import url("components.css");
+
+.input-error {
+    border: 2px solid red !important;
+}

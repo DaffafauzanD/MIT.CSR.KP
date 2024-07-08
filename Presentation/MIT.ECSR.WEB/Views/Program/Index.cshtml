@@ -1,0 +1,139 @@
+﻿@{
+    MIT.ECSR.Shared.Attributes.TokenUserObject token = ViewBag.User;
+    ViewData["Title"] = "Program";
+}
+<input type="hidden" id="rolename" value="@token.Role.Name"/>
+<section id="Program">
+    <div class="row mb-1">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card border-light">
+                <div class="card-header pb-0">
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="">Program</label>
+                                    <div class="input-group input-group-sm" id="Program-JenisProgram-Container">
+                                        <select class="form-control form-control-sm" id="Program-JenisProgram" onchange="ListProgram()" style="height:33px;">
+                                            <option selected value="">-- All--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="">Kegiatan</label>
+                                    <div class="input-group input-group-sm" id="Program-Kegiatan-Container">
+                                        <select class="form-control form-control-sm" id="Program-Kegiatan" style="height:33px;">
+                                            <option selected value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="">Status</label>
+                                    <div class="input-group input-group-sm">
+                                        <select class="form-control form-control-sm" id="Program-Status" onchange="ListProgram()" style="height:33px;">
+                                            <option selected value="">-- All--</option>
+                                            <option value="1">Draft</option>
+                                            <option value="2">Open</option>
+                                            <option value="6">Waiting Verifikasi  </option>
+                                            <option value="8">Reject Verifikasi</option>
+                                            <option value="7">Waiting Approve</option>
+                                            <option value="9">Reject Approve </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label >Tanggal Pelaksanaan (Start-End) <span class="danger">*</span></label>
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend input-group-sm">
+                                    <span class="input-group-text bg-info border-info white">
+                                        <i class="la la-calendar"></i>
+                                    </span>
+                                </div>
+                                <input id="Program-StartTglPelaksanaan" type="text" class="form-control form-control-sm datepicker">
+                                <div class="input-group-append input-group-sm">
+                                    <span class="input-group-text">-</span>
+                                </div>
+                                <input id="Program-EndTglPelaksanaan" type="text" class="form-control form-control-sm datepicker" >
+                            </div>
+                        </div>
+                     
+                        <div class="col-md">
+                            <label>Cari</label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control form-control-sm" id="Program-Search" onchange="ListProgram()" placeholder="Nama Program" aria-describedby="basic-addon7">
+                            </div>
+                        </div>
+                        @if (token.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.OPD.ToString()) || token.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.PERANGKAT.ToString()))
+                        {
+                            <div class="col-md d-flex justify-content-end align-self-end">
+                                <a href="@Url.Action("Add","Program",  new { Area = "" })" class="btn btn-info "><i class="ft-plus-circle icon-left"></i><span>Tambah</span></a>
+                            </div>
+                        }
+                        @if (token.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.BAPPEDA.ToString()))
+                        {
+                            <div class="col-md d-flex justify-content-end align-self-end">
+                                <a href="#" class="btn btn-success" id="btn-export"><i class="ft-file icon-left"></i><span>Export</span></a>
+                            </div>
+                        }
+                    </div>
+                    <hr />
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover" id="Program-table">
+                                    <thead class="bg-info white text-center">
+                                        <tr>
+                                            <th width="5%" class="text-center">No</th>
+                                            <th width="10%">Program</th>
+                                            <th>Kegiatan</th>
+                                            <th width="15%">Sub Kegiatan</th>
+                                            <th width="15%">Tanggal</th>
+                                            <th width="10%">Unit/Rp</th>
+                                            <th width="5%">Status</th>
+                                            <th width="5%">Notes</th>
+                                            <th width="5%">Update By</th>
+                                            <th width="5%">Tanggal Update</th>
+                                            <th width="5%">Pengusul</th>
+                                            <th width="5%">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="Program-tbody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-1 justify-content-between">
+                        <div class="col-md-7 align-self-center">
+                            <span class="d-inline-block mr-1">
+                                <select class="form-control form-control-sm" id="Program-page_select">
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </span>
+                            <span>
+                                Showing <b id="Program-from_page"></b> To <b id="Program-to_page"></b> From <b id="Program-total"></b> Total Data
+                            </span>
+                        </div>
+                        <div class="col-md-5 align-self-center">
+                            <div class="float-right xs-1" id="Program-pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@await Html.PartialAsync("~/Views/Program/_ModalApproval.cshtml")
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/program/index.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/program/approval.js")"></script>
+}

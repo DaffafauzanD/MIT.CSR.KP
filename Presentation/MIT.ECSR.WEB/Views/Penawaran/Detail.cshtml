@@ -1,0 +1,306 @@
+﻿@model dynamic;
+@using MIT.ECSR.Shared.Attributes
+@{
+    TokenUserObject token = ViewBag.User;
+    ViewData["Title"] = "Penawaran";
+    bool isVendor = token != null && token.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.FORUM.ToString());
+    var counter_items = 1;
+}
+<section id="Section-DetailPenawaran">
+    <div class="row">
+        <div class="col-md-4">
+
+            <div class="alert alert-info mb-0 text-center" role="alert">
+                <label>Batas Waktu Program : @Model.program.endProgramKerja.ToString("dd MMMM, yyyy")</label>
+            </div>
+            <div class="card-header text-center">
+                <img class="card-img-top" id="photo_img" src="@(Model.program.photo!=null?Model.program.photo.resize:Url.Content("~/Content/images/no_image.jpg"))" alt="Card image cap">
+            </div>
+
+            <div class="card" id="DetailProgram-Lampiran">
+                <div class="card-header border border-light border-top-0 border-right-0 border-left-0">
+                    <div class="row">
+                        <div class="d-flex align-self-center col-md-6 justify-content-start">
+                            <h4>Lampiran</h4>
+                        </div>
+                    </div>
+                </div>
+                <div id="DetailProgram-ListLampiran">
+                    @if (Model.programLampiran != null)
+                    {
+                        foreach (var lampiran in Model.programLampiran)
+                        {
+                            <div class="col-md-12 my-1">
+                                <div class="bs-callout-blue-grey callout-border-left callout-bordered callout-transparent">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="d-flex align-self-center justify-content-start">
+                                                <a href="@lampiran.original" target="_blank">@lampiran.filename</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header border border-light border-top-0 border-right-0 border-left-0">
+                    <h4 class="card-title">Program Information</h4>
+                    @if (!token.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.FORUM.ToString()))
+                    {
+                        <div class="heading-elements">
+                            <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                                <button class="btn btn-info btn-sm" onclick="StartProgram()" type="button"><i class="ft-save"></i> Start Program</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold ">Program</label>
+                            <div>
+                                <label>@Model.program.jenisProgram.nama</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Tgl Pelaksanaan</label>
+                            <div>
+                                <label>@Model.program.startTglPelaksanaan.ToString("dd MMMM, yyyy") s/d @Model.program.endTglPelaksanaan.ToString("dd MMMM, yyyy")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Kegiatan</label>
+                            <div>
+                                <label>@Model.program.namaProgram.nama</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Deskripsi</label>
+                            <div>
+                                <label>@Model.program.deskripsi</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <label class="font-weight-bold">Lokasi</label>
+                            <div>
+                                <label>@Model.program.lokasiDati</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (token.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.FORUM.ToString()))
+            {
+                <div class="card" id="Penawaran">
+                    <div class="card-header border border-light border-top-0 border-right-0 border-left-0">
+                        <h4 class="card-title">Pengajuan</h4>
+                        <div class="heading-elements">
+                            <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                                <button class="btn btn-info btn-sm" onclick="PengajuanProgram()" type="button"><i class="ft-save"></i> Booking</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="pt-2">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped table-hover" id="Pengajuan-table">
+                                            <thead class="bg-info white text-center">
+                                                <tr>
+                                                    <th width="10%" class="text-center">No</th>
+                                                    <th>Sub Kegiatan</th>
+                                                    <th width="20%">Tanggal Pelaksanaan (Start-End) <span class="danger">*</span></th>
+                                                    <th width="10%">Detail Lokasi</th>
+                                                    <th width="10%">Lampiran</th>
+                                                    <th width="10%">Pagu Anggaran</th>
+                                                    <th width="10%">Volume</th>
+                                                    <th width="10%">Available</th>
+                                                    <th width="20%">Booking</th>
+                                                    <th width="20%">Aktual Anggaran</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="Pengajuan-tbody">
+                                                @foreach (var d in Model.items)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center">@counter_items</td>
+                                                        <td>@d.nama</td>
+                                                        <td>@d.startTglPelaksanaan.ToString("dd MMMM, yyyy") - @d.endTglPelaksanaan.ToString("dd MMMM, yyyy")</td>
+                                                        <td>@d.lokasi</td>
+                                                        <td>
+                                                            <ul style="list-style-type: none;padding-left: 0;">
+                                                            @foreach (var e in d.lampiran)
+                                                            {
+                                                               <li><a href="@e.original" target="_blank">@e.filename</a></li>
+                                                            }
+                                                            </ul>
+                                                        </td>
+                                                        <td>@d.rupiah</td>
+                                                        <td>@d.jumlah @d.satuanUnit</td>
+                                                        <td>@d.sisaJumlah @d.satuanUnit</td>
+                                                        <td>
+                                                            <input type="number" class="form-control not-validate" style="width:100px" id="@(d.id)" name="pengajuan_item[]" oninput="maxNumber(this,@(d.sisaJumlah))" value="0" min="0" max="@(d.sisaJumlah)" @(d.sisaJumlah>0?"":"disabled")>
+                                                        </td>
+                                                        <td>  
+                                                            <input type="number" class="form-control not-validate" style="width:100px" id="@(d.id)" name="anggaran_item[]" oninput="maxNumber(this,@(d.rupiah))" value="0" min="0" max="@(d.rupiah)" @(d.sisaJumlah>0?"":"disabled")>
+                                                        </td>
+                                                    </tr>
+                                                    counter_items++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="card">
+                    <div class="card-header border border-light border-top-0 border-right-0 border-left-0">
+                        <h4 class="card-title">Kegiatan</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="pt-2">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped table-hover" id="Kegiatan-table">
+                                            <thead class="bg-info white text-center">
+                                                <tr>
+                                                    <th width="5%" class="text-center">No</th>
+                                                    <th>Sub Kegiatan</th>
+                                                     <th>Anggaran</th>
+                                                    <th width="15%">Total</th>
+                                                    <th width="15%">Available</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="Kegiatan-tbody"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-1 justify-content-between">
+                                <div class="col-md-7 align-self-center">
+                                    <span class="d-inline-block mr-1">
+                                        <select class="form-control form-control-sm" id="Kegiatan-page_select">
+                                            <option value="5">5</option>
+                                            <option value="10" selected>10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </span>
+                                    <span>
+                                        Showing <b id="Kegiatan-from_page"></b> To <b id="Kegiatan-to_page"></b> From <b id="Kegiatan-total"></b> Total Data
+                                    </span>
+                                </div>
+                                <div class="col-md-5 align-self-center">
+                                    <div class="float-right xs-1" id="Kegiatan-pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</section>
+
+
+@if (token.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.FORUM.ToString()))
+{
+    @await Html.PartialAsync("~/Views/Penawaran/External/_RiwayatPenawaran.cshtml")
+}
+else
+{
+    @await Html.PartialAsync("~/Views/Penawaran/Internal/_RiwayatPenawaran.cshtml")
+
+    <div class="modal" id="md-Penawaran_approval" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Approval</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input id="Penawaran_approval-Id" class="form-control form-control-sm input-sm clear" hidden />
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-10 mb-1">
+                                    <label class="font-weight-bold ">Perusahaan</label>
+                                    <input id="Penawaran_approval-perusahaan" type="text" class="form-control" disabled>
+                                </div>
+                                <div class="col-md-2 mb-1">
+                                    <label class="font-weight-bold ">Total</label>
+                                    <input id="Penawaran_approval-jumlah" type="text" class="form-control" disabled>
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <label class="font-weight-bold ">Deskripsi</label>
+                                    <textarea class="form-control" id="Penawaran_approval-deskripsi" rows="3" disabled></textarea>
+                                </div>
+                                <div class="col-md-6 mb-1" id="Penawaran_approval-lampiran">
+                                    <label class="font-weight-bold">Lampiran</label>
+                                    <a href="#" target="_blank" class="display-block">test</a>
+                                    <a href="#" target="_blank" class="display-block">test2.jpg</a>
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <label class="font-weight-bold ">Status</label>
+                                    <div class="input-group">
+                                        <select class="form-control form-control-sm" id="Progress_Approval-Status" style="height:33px;">
+                                            <option selected value="true">Approve</option>
+                                            <option value="false">Reject</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <div>
+                                        <label for="basicTextarea" class="cursor-pointer font-weight-bold">Notes</label>
+                                        <fieldset class="form-group">
+                                            <textarea class="form-control" id="Penawaran_approval-Notes" rows="3"></textarea>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="Penawaran_approval-save">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+    @if (token.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.FORUM.ToString())){
+        <script type="text/javascript">
+            var id_vendor = "@token.Company.Id";
+            var id_program = "@Model.program.id";
+        </script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/penawaran/external/detail.js")"></script>
+    }else
+    {
+        <script type="text/javascript">
+            var id_program = "@Model.program.id";
+        </script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/penawaran/internal/detail.js")"></script>
+    }
+}

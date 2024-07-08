@@ -1,0 +1,389 @@
+﻿@model dynamic;
+@using MIT.ECSR.Shared.Attributes
+@{
+    ViewData["Title"] = "Program";
+}
+
+<style>
+    .button-submit {
+        position: fixed;
+        bottom: 5%;
+        right: 2%;
+        z-index: 1051;
+    }
+</style>
+
+<input type="text" id="EditProgram-Id" value="@Model.id" hidden>
+<section id="Section-EditProgram">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" id="photo_img" src="@(Model.photo!=null?Model.photo.resize:Url.Content("~/Content/images/no_image.jpg"))" alt="Card image cap">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="photo_file" name="Photo" accept="image/jpg, image/jpeg, image/png">
+                                <label class="custom-file-label" for="Photo" id="photo_label">@(Model.photo != null ? Model.photo.filename : "Choose file")</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-1">
+                            <div class="form-group row">
+                                <label class="font-weight-bold col-md-4 label-control align-self-center">Batas Waktu<span class="danger">*</span></label>
+                                <div class="input-group input-group mb-0 col-md-8">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-info border-info white">
+                                            <i class="la la-calendar"></i>
+                                        </span>
+                                    </div>
+                                    <input id="EditProgram-BatasWaktu" type="text" class="form-control datepicker" value="@Model.endProgramKerja.ToString("dd MMMM, yyyy")">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="DetailProgram-Lampiran">
+                <div class="card-header border border-light border-top-0 border-right-0 border-left-0">
+                    <div class="row">
+                        <div class="d-flex align-self-center col-md-6 justify-content-start">
+                            <h4>Lampiran</h4>
+                        </div>
+                        <div class="d-flex align-self-center col-md-6 justify-content-end">
+                            <button type="button" data-toggle="modal" data-target="#md-Addlampiran" class="btn btn-info"><i class="ft-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div id="DetailProgram-ListLampiran">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header border border-light border-top-0 border-right-0 border-left-0">
+                    <h4 class="card-title">Program Information</h4>
+                    <div class="heading-elements">
+                        <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                            <button class="btn btn-info btn-sm" onclick="SaveProgram()" type="button"><i class="ft-save"></i> Simpan</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Program <span class="danger">*</span></label>
+                            <div class="input-group input-group-sm" id="EditProgram-JenisProgram-Container">
+                                <select class="form-control form-control-sm" id="EditProgram-JenisProgram">
+                                    @foreach (var d in @ViewBag.JenisProgram)
+                                    {
+                                        @if (Model.jenisProgram.id == d.id)
+                                        {
+                                            <option value="@d.id" selected>@d.name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@d.id">@d.name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Kegiatan <span class="danger">*</span></label>
+                            <div class="input-group input-group-sm" id="EditProgram-Nama-Container">
+                                <input type = "hidden" id="EditProgram-NamaProgramId" value="@Model.namaProgram.id"/>
+                                <select class="form-control form-control-sm" id="EditProgram-Nama">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Lokasi Kegiatan <span class="danger">*</span></label>
+                            <div class="input-group input-group-sm" id="EditProgram-LokasiKegiatan-Container">
+                                <select class="form-control form-control-sm" id="EditProgram-LokasiKegiatan">
+                                    @foreach (var l in @ViewBag.Dati)
+                                    {
+                                        @if (Model.lokasi == l.id)
+                                        {
+                                            <option value="@l.id" selected>@l.namaDati3</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@l.id">@l.namaDati3</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Tanggal Pelaksanaan (Start-End) <span class="danger">*</span></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info border-info white">
+                                        <i class="la la-calendar"></i>
+                                    </span>
+                                </div>
+                                <input id="EditProgram-StartTglPelaksanaan" type="text" class="form-control datepicker" value="@Model.startTglPelaksanaan.ToString("dd MMMM, yyyy")">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">-</span>
+                                </div>
+                                <input id="EditProgram-EndTglPelaksanaan" type="text" class="form-control datepicker" value="@Model.endTglPelaksanaan.ToString("dd MMMM, yyyy")">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <label class="font-weight-bold">Deskripsi Program <span class="danger">*</span></label>
+                            <textarea id="EditProgram-Deskripsi" rows="3" class="form-control">@Model.deskripsi</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header border border-light border-top-0 border-right-0 border-left-0">
+                    @*<h4 class="card-title">Program Information</h4>*@
+                    <div class="row">
+                        <div class="d-flex align-self-center col-md-6 justify-content-start">
+                            <h4>Sub Kegiatan</h4>
+                        </div>
+                        <div class="d-flex align-self-center col-md-6 justify-content-end">
+                            <button type="button" data-toggle="modal" data-target="#md-AddKegiatan" class="btn btn-info"><i class="ft-plus"></i> Tambah Sub Kegiatan</button>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover" id="Kegiatan-table">
+                                        <thead class="bg-info white text-center">
+                                            <tr>
+                                                <th width="10%" class="text-center">No</th>
+                                                <th>Sub Kegiatan</th>
+                                                <th>Tanggal Pelaksanaan</th>
+                                                <th>Detail Lokasi</th>
+                                                <th>Lampiran</th>
+                                                <th width="20%">Volume</th>
+                                                <th width="20%">Pengajuan Angaran</th>
+                                                <th width="10%">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="Kegiatan-tbody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-1 justify-content-between">
+                            <div class="col-md-7 align-self-center">
+                                <span class="d-inline-block mr-1">
+                                    <select class="form-control form-control-sm" id="Kegiatan-page_select">
+                                        <option value="5">5</option>
+                                        <option value="10" selected>10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </span>
+                                <span>
+                                    Showing <b id="Kegiatan-from_page"></b> To <b id="Kegiatan-to_page"></b> From <b id="Kegiatan-total"></b> Total Data
+                                </span>
+                            </div>
+                            <div class="col-md-5 align-self-center">
+                                <div class="float-right xs-1" id="Kegiatan-pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<button class="button-submit btn btn-float btn-float-lg btn-info" type="submit" onclick="SubmitProgram();" aria-haspopup="true" aria-expanded="false">
+    <i class="ft-save"></i> Submit
+</button>
+
+@*MODAL ADD FILE*@
+<div class="modal" tabindex="-1" role="dialog" id="md-Addlampiran">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title text-white">Upload Lampiran</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="custom-file col-md-12">
+                    <input type="file" class="custom-file-input" id="Addlampiran-File" onchange="showNameFile();">
+                    <label class="custom-file-label" for="lampiran">Choose file</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" onclick="UploadLampiran();">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="md-AddKegiatan" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h4 class="modal-title text-white">Tambah Sub Kegiatan</h4>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <label class="mb-0 font-weight-bold">Nama Sub Kegiatan <span class="danger">*</span></label>
+                        <input id="AddKegiatan-Nama" class="form-control form-control-sm input-sm clear" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="mb-0 font-weight-bold">Volume <span class="danger">*</span></label>
+                        <input id="AddKegiatan-Qty" class="form-control form-control-sm input-sm clear" type="number" />
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col-md-8">
+                        <label class="mb-0 font-weight-bold">Pengajuan Anggaran (Rp.) <span class="danger">*</span></label>
+                        <input id="AddKegiatan-Harga" class="form-control form-control-sm input-sm clear" type="number" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="mb-0 font-weight-bold">Satuan Volume <span class="danger">*</span></label>
+                        <input id="AddKegiatan-Satuan" class="form-control form-control-sm input-sm clear" placeholder="Unit" />
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-12">
+                        <label class="font-weight-bold">Tanggal Pelaksanaan (Start-End) <span class="danger">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-info border-info white">
+                                    <i class="la la-calendar"></i>
+                                </span>
+                            </div>
+                            <input id="AddKegiatan-StartTglPelaksanaan" type="text" class="form-control datepicker">
+                            <div class="input-group-append">
+                                <span class="input-group-text">-</span>
+                            </div>
+                            <input id="AddKegiatan-EndTglPelaksanaan" type="text" class="form-control datepicker">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col">
+                        <label class="mb-0 font-weight-bold">Detail Lokasi <span class="danger">*</span></label>
+                        <input id="AddKegiatan-Lokasi" class="form-control form-control-sm input-sm clear" />
+                    </div>
+                
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col">
+                        <label class="mb-0 font-weight-bold">Upload Dokumen <span class="danger">*</span></label>
+                        <section id="AddKegiatan-Lampiran-Container">
+                           
+                        </section>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" onclick="AddKegiatan();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="md-EditKegiatan" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h4 class="modal-title text-white">Rubah Sub Kegiatan</h4>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <input id="EditKegiatan-Id" class="form-control form-control-sm input-sm clear" hidden />
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <label class="mb-0 font-weight-bold">Nama Sub Kegiatan <span class="danger">*</span></label>
+                        <input id="EditKegiatan-Nama" class="form-control form-control-sm input-sm clear" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="mb-0 font-weight-bold">Volume <span class="danger">*</span></label>
+                        <input id="EditKegiatan-Qty" class="form-control form-control-sm input-sm clear" type="number" />
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col-md-8">
+                        <label class="mb-0 font-weight-bold">Pengajuan Anggaran (Rp.) <span class="danger">*</span></label>
+                        <input id="EditKegiatan-Harga" class="form-control form-control-sm input-sm clear" type="number" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="mb-0 font-weight-bold">Satuan Volume <span class="danger">*</span></label>
+                        <input id="EditKegiatan-Satuan" class="form-control form-control-sm input-sm clear" placeholder="Unit" />
+                    </div>
+                </div>
+
+                 <div class="row mt-1">
+                    <div class="col-md-12">
+                        <label class="font-weight-bold">Tanggal Pelaksanaan (Start-End) <span class="danger">*</span></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-info border-info white">
+                                    <i class="la la-calendar"></i>
+                                </span>
+                            </div>
+                            <input id="EditKegiatan-StartTglPelaksanaan" type="text" class="form-control datepicker">
+                            <div class="input-group-append">
+                                <span class="input-group-text">-</span>
+                            </div>
+                            <input id="EditKegiatan-EndTglPelaksanaan" type="text" class="form-control datepicker">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col">
+                        <label class="mb-0 font-weight-bold">Detail Lokasi <span class="danger">*</span></label>
+                        <input id="EditKegiatan-Lokasi" class="form-control form-control-sm input-sm clear" />
+                    </div>
+                
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col">
+                        <label class="mb-0 font-weight-bold">Upload Dokumen <span class="danger">*</span></label>
+                        <section id="EditKegiatan-Lampiran-Container">
+                        </section>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" onclick="EditKegiatan();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/program/edit.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/program/kegiatan.js")"></script>
+}

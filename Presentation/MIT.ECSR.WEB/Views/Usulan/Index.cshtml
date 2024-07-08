@@ -1,0 +1,25 @@
+﻿@{
+    MIT.ECSR.Shared.Attributes.TokenUserObject token = ViewBag.User;
+    ViewData["Title"] = "Usulan";
+    bool isVendor = token != null && token.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.FORUM.ToString());
+}
+@if (isVendor)
+{
+    @await Html.PartialAsync("~/Views/Usulan/External/Index.cshtml",token)
+}
+else
+{
+    @await Html.PartialAsync("~/Views/Usulan/Internal/Index.cshtml",token)
+}
+
+@section scripts{
+    @if (isVendor)
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/penawaran/external/index.js")"></script>
+    }
+    else
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/penawaran/internal/index.js")"></script>
+
+    }
+}

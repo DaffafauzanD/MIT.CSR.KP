@@ -1,0 +1,261 @@
+﻿@model dynamic;
+@using MIT.ECSR.Shared.Attributes
+@using MIT.ECSR.Web.Helper
+@using MIT.ECSR.Web.Model
+@{
+    ViewData["Title"] = "Detail Program";
+    bool IsPublic = ViewBag.IsPublic;
+    var Items = ViewBag.Item;
+    List<ProgressProgramResponse> Progress = ViewBag.Progress;
+    List<MediaUrl> lampiran_photo_progress = new List<MediaUrl>();
+    if(Progress!=null){
+        foreach(var d in Progress){
+            if(d.Lampiran != null){
+                foreach(var l in d.Lampiran){
+                    if(HelperClient.IsImage(l.Filename))
+                    {
+                        lampiran_photo_progress.Add(l);
+                    }
+                }
+            }
+        }
+    }
+}
+<style>
+    .button-submit {
+        position: fixed;
+        bottom: 5%;
+        right: 2%;
+        z-index: 1051;
+    }
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/app-assets/vendors/tagator/fm.tagator.jquery.css")" >
+</style>
+
+<input type="text" id="DetailProgram-Id" value="@Model.id" hidden>
+<div class="content-wrapper">
+    <section id="Section-DetailProgram">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" id="photo_img" src="@(Model.photo!=null?Model.photo.resize:Url.Content("~/Content/images/no_image.jpg"))" alt="Card image cap">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <div class="form-group row">
+                                <label class="font-weight-bold col-md-4 label-control align-self-center">Batas Waktu<span class="danger">*</span></label>
+                                <div class="input-group input-group mb-0 col-md-8">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-info border-info white">
+                                            <i class="la la-calendar"></i>
+                                        </span>
+                                    </div>
+                                    <input id="DetailProgram-BatasWaktu" type="text" class="form-control datepicker" value="@Model.endProgramKerja.ToString("dd MMMM, yyyy")" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="DetailProgram-Lampiran">
+                <div class="card-header border border-light border-top-0 border-right-0 border-left-0">
+                    <div class="row">
+                        <div class="d-flex align-self-center col-md-6 justify-content-start">
+                            <h4>Lampiran</h4>
+                        </div>
+                    </div>
+                </div>
+                <div id="DetailProgram-ListLampiran">
+                </div>
+            </div>
+
+            <div class="card" id="DetailProgram-Approval">
+                <div class="card-header border border-light border-top-0 border-right-0 border-left-0">
+                    <div class="row">
+                        <div class="d-flex align-self-center col-md-6 justify-content-start">
+                            <h4>Status Program</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body" id="DetailProgram-DetailStatus">
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Status</label>
+                            <div class="input-group input-group-sm">
+                                <label>@Model.status</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Notes</label>
+                            <div class="input-group input-group-sm">
+                                <label>@Model.notes</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Update By</label>
+                            <div class="input-group input-group-sm">
+                                <label>@Model.updateBy?.ToString("dd MMMM, yyyy")</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Update Date</label>
+                            <div class="input-group input-group-sm">
+                                    <label>@Model.updateDate?.ToString("dd MMMM, yyyy")</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header border border-light border-top-0 border-right-0 border-left-0">
+                    <h4 class="card-title">Program Information</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Program</label>
+                            <div class="input-group input-group-sm" id="DetailProgram-JenisProgram-Container">
+                                <select class="form-control form-control-sm" id="DetailProgram-JenisProgram" disabled>
+                                    @foreach (var d in @ViewBag.JenisProgram)
+                                    {
+                                        @if (Model.jenisProgram.id == d.id)
+                                        {
+                                            <option value="@d.id" selected>@d.name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@d.id">@d.name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Kegiatan</label>
+                            <div class="input-group">
+                                <input id="DetailProgram-Nama" type="text" class="form-control" value="@Model.namaProgram.nama" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Lokasi Kegiatan</label>
+                            <div class="input-group input-group-sm" id="DetailProgram-LokasiKegiatan-Container">
+                                <select class="form-control form-control-sm" id="DetailProgram-LokasiKegiatan" disabled>
+                                    @foreach (var l in @ViewBag.Dati)
+                                    {
+                                        @if (Model.lokasi == l.id)
+                                        {
+                                            <option value="@l.id" selected>@l.namaDati3</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@l.id">@l.namaDati3</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Tanggal Pelaksanaan (Start-End)</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info border-info white">
+                                        <i class="la la-calendar"></i>
+                                    </span>
+                                </div>
+                                <input id="DetailProgram-StartTglPelaksanaan" type="text" class="form-control datepicker" value="@Model.startTglPelaksanaan.ToString("dd MMMM, yyyy")" readonly>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">-</span>
+                                </div>
+                                <input id="DetailProgram-EndTglPelaksanaan" type="text" class="form-control datepicker" value="@Model.endTglPelaksanaan.ToString("dd MMMM, yyyy")" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <label class="font-weight-bold">Deskripsi Program</label>
+                            <textarea id="DetailProgram-Deskripsi" rows="3" class="form-control" readonly>@Model.deskripsi</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header border border-light border-top-0 border-right-0 border-left-0">
+                    @*<h4 class="card-title">Program Information</h4>*@
+                    <div class="row">
+                        <div class="d-flex align-self-center col-md-6 justify-content-start">
+                            <h4>Sub Kegiatan</h4>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover" id="Kegiatan-table">
+                                        <thead class="bg-info white text-center">
+                                            <tr>
+                                                <th width="10%" class="text-center">No</th>
+                                                <th>Sub Kegiatan</th>
+                                                <th>Tanggal Pelaksanaan</th>
+                                                <th>Detail Lokasi</th>
+                                                <th>Lampiran</th>
+                                                <th width="20%">Volume</th>
+                                                <th width="20%">Pengajuan Angaran</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="Kegiatan-tbody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-1 justify-content-between">
+                            <div class="col-md-7 align-self-center">
+                                <span class="d-inline-block mr-1">
+                                    <select class="form-control form-control-sm" id="Kegiatan-page_select">
+                                        <option value="5">5</option>
+                                        <option value="10" selected>10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </span>
+                                <span>
+                                    Showing <b id="Kegiatan-from_page"></b> To <b id="Kegiatan-to_page"></b> From <b id="Kegiatan-total"></b> Total Data
+                                </span>
+                            </div>
+                            <div class="col-md-5 align-self-center">
+                                <div class="float-right xs-1" id="Kegiatan-pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
+@{
+    if (Model.status == "WAITING VERIFIKASI")
+    {
+        <button class="button-submit btn btn-float btn-float-lg btn-info" type="button" onclick="showApproval(this, approvalCallback);" data-detail="@Model.id" aria-haspopup="true" aria-expanded="false">
+            <i class="ft-save"></i> Verifikasi
+        </button>
+    }else if (Model.status == "WAITING APPROVAL")
+    {
+        <button class="button-submit btn btn-float btn-float-lg btn-info" type="button" onclick="showApproval(this, approvalCallback);" data-detail="@Model.id" aria-haspopup="true" aria-expanded="false">
+            <i class="ft-save"></i> Approve
+        </button>
+    }
+}
+
+@await Html.PartialAsync("~/Views/Program/_ModalApproval.cshtml")
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/program/detail.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/program/kegiatan_detail.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/program/approval.js")"></script>
+}

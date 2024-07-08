@@ -1,0 +1,87 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="General\**" />
+	  <Compile Remove="Monitoring\**" />
+	  <Compile Remove="Monitoring_backup\**" />
+	  <Compile Remove="PenawaranInternal_backup\**" />
+	  <Compile Remove="Penawaran_backup\**" />
+	  <Compile Remove="Program_backup\**" />
+	  <EmbeddedResource Remove="General\**" />
+	  <EmbeddedResource Remove="Monitoring\**" />
+	  <EmbeddedResource Remove="Monitoring_backup\**" />
+	  <EmbeddedResource Remove="PenawaranInternal_backup\**" />
+	  <EmbeddedResource Remove="Penawaran_backup\**" />
+	  <EmbeddedResource Remove="Program_backup\**" />
+	  <None Remove="General\**" />
+	  <None Remove="Monitoring\**" />
+	  <None Remove="Monitoring_backup\**" />
+	  <None Remove="PenawaranInternal_backup\**" />
+	  <None Remove="Penawaran_backup\**" />
+	  <None Remove="Program_backup\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Include="General\Media\Command\DeleteMediaByModulHandler.cs" />
+	  <Compile Include="General\Media\Command\EditMediaHandler.cs" />
+	  <Compile Include="General\Media\Command\DeleteMediaHandler.cs" />
+	  <Compile Include="General\Media\Command\UploadMediaHandler.cs" />
+	  <Compile Include="General\Media\Object\MediaResponse.cs" />
+	  <Compile Include="General\Media\Query\DownloadMediaHandler.cs" />
+	  <Compile Include="General\Media\Query\GetMediaUrlListHandler.cs" />
+	  <Compile Include="General\Media\Query\GetMediaUrlHandler.cs" />
+	  <Compile Include="General\Media\Query\GetMediaListHandler.cs" />
+	  <Compile Include="General\Notification\Command\AddNotificationHandler.cs" />
+	  <Compile Include="General\Notification\Command\DeleteNotificationHandler.cs" />
+	  <Compile Include="General\Notification\Command\OpenNotificationHandler.cs" />
+	  <Compile Include="General\Notification\Object\NotificationRequest.cs" />
+	  <Compile Include="General\Notification\Object\NotificationResponse.cs" />
+	  <Compile Include="General\Notification\Query\GetNotificationByIdHandler.cs" />
+	  <Compile Include="General\Notification\Query\GetNotificationListHandler.cs" />
+	  <Compile Include="General\Perusahaan\Object\PerusahaanRequest.cs" />
+	  <Compile Include="General\Perusahaan\Object\PerusahaanResponse.cs" />
+	  <Compile Include="General\Perusahaan\Query\GetPerusahaanByIdHandler.cs" />
+	  <Compile Include="General\Perusahaan\Query\GetPerusahaanListMiniHandler.cs" />
+	  <Compile Include="General\Perusahaan\Query\GetPerusahaanListHandler.cs" />
+	  <Compile Include="General\User\Command\ActiveUserHandler.cs" />
+	  <Compile Include="General\User\Command\ChangePasswordHandler.cs" />
+	  <Compile Include="General\User\Command\DeleteUserHandler.cs" />
+	  <Compile Include="General\User\Command\EditUserHandler.cs" />
+	  <Compile Include="General\User\Command\GenerateTokenHandler.cs" />
+	  <Compile Include="General\User\Command\LoginUserHandler.cs" />
+	  <Compile Include="General\User\Command\LogoffHandler.cs" />
+	  <Compile Include="General\User\Command\RefreshTokenHandler.cs" />
+	  <Compile Include="General\User\Command\RegisterUserHandler.cs" />
+	  <Compile Include="General\User\Command\ResetPasswordHandler.cs" />
+	  <Compile Include="General\User\Command\UserProfileHandler.cs" />
+	  <Compile Include="General\User\Object\UserDetailResponse.cs" />
+	  <Compile Include="General\User\Object\UserRequest.cs" />
+	  <Compile Include="General\User\Object\UserResponse.cs" />
+	  <Compile Include="General\User\Query\GetRoleListHandler.cs" />
+	  <Compile Include="General\User\Query\GetUserByIdHandler.cs" />
+	  <Compile Include="General\User\Query\GetUserListHandler.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="DocumentFormat.OpenXml" Version="2.17.1" />
+		<PackageReference Include="EPPlus" Version="6.1.1" />
+		<PackageReference Include="Hangfire.Core" Version="1.7.30" />
+		<PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="6.0.7" />
+		<PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.19" />
+		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+		<PackageReference Include="Sylvan.Data.Excel" Version="0.2.0" />
+		<PackageReference Include="MimeTypeMapOfficial" Version="1.0.17" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\MIT.ECSR.Data\MIT.ECSR.Data.csproj" />
+		<ProjectReference Include="..\MIT.ECSR.Shared\MIT.ECSR.Shared.csproj" />
+	</ItemGroup>
+
+</Project>

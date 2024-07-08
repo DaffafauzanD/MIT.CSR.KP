@@ -1,0 +1,24 @@
+﻿@{
+    MIT.ECSR.Shared.Attributes.TokenUserObject token = ViewBag.User;
+    ViewData["Title"] = "Monitoring Progress";
+}
+@if (token.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.FORUM.ToString()))
+{
+    @await Html.PartialAsync("~/Views/Monitoring/Eksternal.cshtml",token)
+}
+else
+{
+    @await Html.PartialAsync("~/Views/Monitoring/Internal.cshtml",token)
+}
+
+@section scripts{
+    @if (token.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.FORUM.ToString()))
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Monitoring/external/index.js")"></script>
+    }
+    else
+    {
+        <script type="text/javascript" src="@Url.Content("~/Scripts/Monitoring/internal/index.js")"></script>
+
+    }
+}

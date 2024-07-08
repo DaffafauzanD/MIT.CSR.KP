@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "User";
+}
+<section id="UserIndex">
+    <div class="row mb-1">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card border-light">
+                <div class="card-header pb-0">
+                    <div class="row">
+                            <div class="col-md-3  align-self-end">
+                                <fieldset class="form-group position-relative has-icon-left mt-1">
+                                    <input type="text" class="form-control" id="search-all" placeholder="Search..">
+                                    <div class="form-control-position">
+                                        <i class="ft-search primary font-medium-4"></i>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-3 mb-1" id="Search-User-Role-Container">
+                                <label class="font-weight-bold">Role </label>
+                                <select class="form-control" id="Search-User-Role">
+                                </select>
+                            </div>
+                            <div class="col-md-3  mb-1">
+                                <label class="font-weight-bold">Status </label>
+                                <select class="form-control" id="Search-User-Status">
+                                    <option> -- PILIH --</option>
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="NOT ACTIVE">NOT ACTIVE</option>
+                                </select>
+                            </div>
+                        <div class=" col-md-3 d-flex  mb-1 justify-content-end align-self-end">
+                            <a href="/Setting/UserAdd" class="btn btn-info"><i class="ft-plus-circle icon-left"></i><span>Tambah</span></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="user-table">
+                                    <thead class="text-center bg-primary text-white font-heigh-bold">
+                                        <tr>
+                                            <th scope="col">No</th>
+                                            <th scope="col">Fullname</th>
+                                            <th scope="col">Username</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Role</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="user-tbody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-1 justify-content-between">
+                        <div class="col-md-7 align-self-center">
+                            <span class="d-inline-block mr-1">
+                                    <select class="form-control form-control-sm input-sm" id="user-page_select"   @*  onchange="Get_listUser()*@">
+                                    <option value="5" selected>5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </span>
+                            <span>
+                                Showing <b id="user-from_page"></b> To <b id="user-to_page"></b> From <b id="user-total"></b> Total Data
+                            </span>
+                        </div>
+                        <div class="col-md-5 align-self-center">
+                            <div class="float-right xs" id="user-pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section modals{
+@*    @await Html.PartialAsync("~/Areas/Setting/Views/User/_Add.cshtml")
+    @await Html.PartialAsync("~/Areas/Setting/Views/User/_Edit.cshtml")
+    @await Html.PartialAsync("~/Areas/Setting/Views/User/_Detail.cshtml")*@
+}
+
+@section scripts{
+
+            <script type="text/javascript" src="@Url.Content("~/Scripts/setting/user.js")"></script>
+@*    <script type="text/javascript" src="@Url.Content("~/Scripts/Setting/User/index.js")" asp-append-version="true"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Setting/User/add.js")" asp-append-version="true"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Setting/User/edit.js")" asp-append-version="true"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Setting/User/detail.js")" asp-append-version="true"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Setting/User/delete.js")" asp-append-version="true"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Setting/User/reset_password.js")" asp-append-version="true"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Setting/User/lock_user.js")" asp-append-version="true"></script>*@
+}

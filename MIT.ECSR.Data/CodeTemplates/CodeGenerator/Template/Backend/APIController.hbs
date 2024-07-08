@@ -1,0 +1,62 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using {{namespace}}Core.Model;
+using {{namespace}}Shared.Attributes;
+using Microsoft.AspNetCore.JsonPatch;
+using {{namespace}}Core.Interface;
+using {{namespace}}Core.Model.Request;
+
+namespace {{namespace}}API.Controllers
+{
+    public class {{model}}Controller : BaseController
+    {
+        private readonly ILogger _logger;
+        private readonly I{{model}}Service _service;
+        public {{model}}Controller(ILogger<{{model}}Controller> logger,
+            I{{model}}Service service)
+        {
+            _logger = logger;
+            _service = service;
+        }
+        [HttpGet(template: "get")]
+        public async Task<IActionResult> GetById({{primary_key_type}} id)
+        {
+            return Wrapper(await _service.GetById(id));
+        }
+
+        [HttpPost(template: "list")]
+        public async Task<IActionResult> List([FromBody] ListRequest request)
+        {
+            return Wrapper(await _service.List(request));
+        }
+
+        [HttpPost(template: "add")]
+        public async Task<IActionResult> Add([FromBody] {{model}}Request request)
+        {
+            return Wrapper(await _service.Add(request, "inputer token"));
+        }
+
+        [HttpPut(template: "edit/{id}")]
+        public async Task<IActionResult> Edit({{primary_key_type}} id,[FromBody] {{model}}Request request)
+        {
+            return Wrapper(await _service.Edit(id,request, "inputer token"));
+        }
+        [HttpPatch(template: "patch/{id}")]
+        public async Task<IActionResult> Patch({{primary_key_type}} id, [FromBody] JsonPatchDocument<{{model}}Request> request)
+        {
+            return Wrapper(await _service.Patch(id,request, "inputer token"));
+        }
+
+        [HttpDelete(template: "delete/{id}")]
+        public async Task<IActionResult> Delete({{primary_key_type}} id)
+        {
+            return Wrapper(await _service.Delete(id, "inputer token"));
+        }
+        {{>master}}
+        [HttpPut(template: "active/{id}/{value}")]
+        public async Task<IActionResult> Active({{primary_key_type}} id,bool value)
+        {
+            return Wrapper(await _service.Active(id,value, "inputer token"));
+        }
+        {{<master}}
+    }
+}

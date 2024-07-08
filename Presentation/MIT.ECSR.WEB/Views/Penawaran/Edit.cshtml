@@ -1,0 +1,17 @@
+﻿@{
+    MIT.ECSR.Shared.Attributes.TokenUserObject token = ViewBag.User;
+    ViewData["Title"] = "Penawaran";
+    bool isVendor = token != null && token.Role.Name.Contains(MIT.ECSR.Shared.Attributes.RoleName.FORUM.ToString());
+}
+@if(token != null && isVendor)
+{
+    @await Html.PartialAsync("~/Views/Penawaran/External/Index.cshtml",token)
+}
+else if (token != null && !isVendor)
+{
+    @await Html.PartialAsync("~/Views/Penawaran/External/Index.cshtml",token)
+}
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/penawaran/external/index.js")"></script>
+}

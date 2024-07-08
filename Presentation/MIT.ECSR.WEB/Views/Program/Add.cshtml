@@ -1,0 +1,100 @@
+﻿@{
+    ViewData["Title"] = "Add Program";
+}
+
+<section id="Section-AddProgram">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" id="photo_img" src="@Url.Content("~/Content/images/no_image.jpg")" alt="Card image cap">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="photo_file" name="Photo" accept="image/jpg, image/jpeg, image/png">
+                                <label class="custom-file-label" for="Photo" id="photo_label">Choose file</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-1">
+                            <div class="form-group row">
+                                <label class="font-weight-bold col-md-4 label-control align-self-center">Batas Waktu<span class="danger">*</span></label>
+                                <div class="input-group input-group mb-0 col-md-8">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-info border-info white">
+                                            <i class="la la-calendar"></i>
+                                        </span>
+                                    </div>
+                                    <input id="AddProgram-BatasWaktu" type="text" class="form-control datepicker">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header border border-light border-top-0 border-right-0 border-left-0">
+                    <h4 class="card-title">Program Information</h4>
+                    <div class="heading-elements">
+                        <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+                            <button class="btn btn-info btn-sm" onclick="SaveProgram()" type="button"><i class="ft-save"></i> Lanjut</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Program <span class="danger">*</span></label>
+                            <div class="input-group input-group-sm" id="AddProgram-JenisProgram-Container">
+                                <select class="form-control form-control-sm" id="AddProgram-JenisProgram">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Kegiatan <span class="danger">*</span></label>
+                            <div class="input-group input-group-sm" id="AddProgram-Kegiatan-Container">
+                                <select class="form-control form-control-sm" id="AddProgram-Kegiatan">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Lokasi Kegiatan <span class="danger">*</span></label>
+                            <div class="input-group input-group-sm" id="AddProgram-LokasiKegiatan-Container">
+                                <select class="form-control form-control-sm" id="AddProgram-LokasiKegiatan">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-1">
+                            <label class="font-weight-bold">Tanggal Pelaksanaan (Start-End) <span class="danger">*</span></label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text bg-info border-info white">
+                                        <i class="la la-calendar"></i>
+                                    </span>
+                                </div>
+                                <input id="AddProgram-StartTglPelaksanaan" type="text" class="form-control datepicker">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">-</span>
+                                </div>
+                                <input id="AddProgram-EndTglPelaksanaan" type="text" class="form-control datepicker">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-1">
+                            <label class="font-weight-bold">Deskripsi Program <span class="danger">*</span></label>
+                            <textarea id="AddProgram-Deskripsi" rows="3" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/program/add.js")"></script>
+}

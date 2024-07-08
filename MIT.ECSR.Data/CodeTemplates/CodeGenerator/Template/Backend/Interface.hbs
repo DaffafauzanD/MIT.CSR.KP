@@ -1,0 +1,19 @@
+﻿using {{namespace}}Core.Model;
+using Microsoft.AspNetCore.JsonPatch;
+using {{namespace}}Shared.Attributes;
+using {{namespace}}Core.Model.Response;
+using {{namespace}}Core.Model.Request;
+
+namespace {{namespace}}Core.Interface
+{
+    public interface I{{model}}Service
+    {
+        Task<ObjectResult<{{model}}Response>> GetById({{primary_key_type}} id);
+        Task<ListResult<{{model}}Response>> List(ListRequest request);
+        Task<ServiceResult> Add({{model}}Request request,string inputer);
+        Task<ServiceResult> Edit({{primary_key_type}} id, {{model}}Request request, string inputer);
+        Task<ServiceResult> Patch({{primary_key_type}} id, JsonPatchDocument<{{model}}Request> request, string inputer);
+        Task<ServiceResult> Delete ({{primary_key_type}} id, string inputer);
+        {{>master}}Task<ServiceResult> Active({{primary_key_type}} id, bool value,string inputer);{{<master}}
+    }
+}

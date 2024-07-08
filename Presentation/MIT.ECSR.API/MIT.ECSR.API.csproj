@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Controllers\v1\General\MailController.cs" />
+	  <Compile Remove="Controllers\v1\General\MediaController.cs" />
+	  <Compile Remove="Controllers\v1\PenawaranController.cs" />
+	  <Compile Remove="Controllers\v1\Penawaran\PenawaranItemController.cs" />
+	  <Compile Remove="Controllers\v1\ProgramController.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.4" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.3.0" />
+		<PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+		<PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
+		<PackageReference Include="Serilog.Sinks.Seq" Version="5.1.1" />
+		<PackageReference Include="Hangfire.AspNetCore" Version="1.7.30" />
+		<PackageReference Include="Hangfire.Dashboard.Basic.Authentication" Version="5.0.0" />
+		<PackageReference Include="Hangfire.SqlServer" Version="1.7.30" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\MIT.ECSR.Core\MIT.ECSR.Core.csproj" />
+		<ProjectReference Include="..\..\MIT.ECSR.Data\MIT.ECSR.Data.csproj" />
+		<ProjectReference Include="..\..\MIT.ECSR.Shared\MIT.ECSR.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Media\empty">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+</Project>

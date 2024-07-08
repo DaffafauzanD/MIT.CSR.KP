@@ -1,0 +1,131 @@
+﻿@model dynamic;
+@{
+    ViewBag.Title = "User Management";
+    ViewBag.Menu = "User";
+    ViewBag.Header = "Data";
+    var namaPerusahaan = Model.perusahaan != null ? Model.perusahaan.namaPerusahaan : "";
+    var nib = Model.perusahaan != null ? Model.perusahaan.nib : "";
+    var jenisPerseroan = Model.perusahaan != null ? Model.perusahaan.jenisPerseroan : "";
+    var npwp = Model.perusahaan != null ? Model.perusahaan.npwp : "";
+    var bidangUsaha = Model.perusahaan != null ? Model.perusahaan.bidangUsaha : "";
+    var alamat = Model.perusahaan != null ? Model.perusahaan.alamat : "";
+}
+
+<input type="hidden" id="EditUser-Id" value="@Model.id"/>
+<input type="hidden" id="EditUser-RoleId" value="@Model.role.id"/>
+<input type="hidden" id="EditUser-RoleName" value="@Model.role.name"/>
+<div class="content-wrapper">
+    <div class="content-body">
+          <section id="ExternalIndex">
+                    <div class="row mb-1">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="card box-shadow-0 border-light">
+                                <div class="card-header pb-0">
+                                    <div class="col-md-12">
+                                        <h5 class="modal-title text-center mb-4"> Add User</h5>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5 class="mb-4  text-center">General Information</h5>
+                                            <div class="mb-1">
+                                                <label class="font-weight-bold mb-0 ">Role</label>
+                                                <div id="EditUser-Role-Container">
+                                                    <select class="form-control form-control-sm" id="EditUser-Role" style="height:33px;">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="font-weight-bold mb-0 ">Fullname</label>
+                                                <div>
+                                                    <input type="text" class="form-control form-control-sm" id="EditUser-Fullname" value="@Model.fullname">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="font-weight-bold mb-0">Email</label>
+                                                <div>
+                                                    <input type="text" class="form-control form-control-sm" id="EditUser-Mail" value="@Model.mail">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="font-weight-bold mb-0">Nomor Telepon</label>
+                                                <div>
+                                                    <input type="number" class="form-control form-control-sm" id="EditUser-PhoneNumber" value="@Model.phoneNumber">
+                                                </div>
+                                            </div>
+
+                                            <div id="div-forum">
+                                                <div>
+                                                <label class="font-weight-bold mb-0">Nama Perusahaan</label>
+                                                <div>
+                                                    <input type="text" class="form-control form-control-sm" id="EditUser-NamaPerusahaan" value="@namaPerusahaan">
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <label class="font-weight-bold mb-0">Nib</label>
+                                                    <div>
+                                                        <input type="text" class="form-control form-control-sm" id="EditUser-Nib" value="@nib">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label class="font-weight-bold mb-0">Jenis Perseroan</label>
+                                                    <div>
+                                                        <input type="text" class="form-control form-control-sm" id="EditUser-JenisPerusahaan" value="@jenisPerseroan">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label class="font-weight-bold mb-0">Npwp</label>
+                                                    <div>
+                                                        <input type="text" class="form-control form-control-sm" id="EditUser-Npwp" value="@npwp">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label class="font-weight-bold mb-0">Bidang usaha</label>
+                                                    <div>
+                                                        <input type="text" class="form-control form-control-sm" id="EditUser-BidangUsaha" value="@bidangUsaha">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label class="font-weight-bold mb-0">Alamat Perusahaan</label>
+                                                    <div>
+                                                        <textarea rows="3" class="form-control" id="EditUser-AlamatPerusahaan" value="@alamat"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h5 class="mb-4  text-center">Login Info</h5>
+                                            <div>
+                                                <label class="font-weight-bold mb-0 ">Username</label>
+                                                <div>
+                                                    <input type="text" class="form-control form-control-sm" id="EditUser-Username" value="@Model.username">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label class="font-weight-bold mb-0 ">Password</label>
+                                                <div>
+                                                    <input type="password" class="form-control form-control-sm" id="EditUser-Password">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-4 text-center">
+                                    <button class="btn btn-sm btn-success col-md-1" type="button" style="" id="save_btn"> Save</button>
+                                </div>
+              
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/setting/edit_user.js" asp-append-version="true"></script>
+}

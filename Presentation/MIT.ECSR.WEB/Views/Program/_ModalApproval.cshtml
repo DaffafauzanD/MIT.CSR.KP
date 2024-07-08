@@ -1,0 +1,41 @@
+﻿<div class="modal" id="md-Program_approval" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Approval</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input id="Program_approval-Id" class="form-control form-control-sm input-sm clear" hidden />
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-1">
+                                    <label class="font-weight-bold ">Status</label>
+                                    <div class="input-group">
+                                        <select class="form-control form-control-sm" id="Program_Approval-Status" style="height:33px;">
+                                            <option selected value="true">Approve</option>
+                                            <option value="false">Reject</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <div>
+                                        <label for="basicTextarea" class="cursor-pointer font-weight-bold">Notes</label>
+                                        <fieldset class="form-group">
+                                            <textarea class="form-control" id="Program_approval-Notes" rows="3"></textarea>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="Program_approval-save">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>

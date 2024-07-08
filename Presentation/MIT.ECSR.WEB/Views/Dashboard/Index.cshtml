@@ -1,0 +1,122 @@
+﻿<html>
+<head>
+    <style>
+               body {
+            background-color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            color: #000;
+        }
+
+        a:link, a:visited {
+            color: #4682b4;
+        }
+
+        a:hover {
+            color: #4169e1;
+        }
+                #main	{
+            width: 1200px;
+            height: 800px;
+        }
+        
+    </style>
+</head>
+
+    <body>
+        <div class="row mb-1">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card border-light">
+                    <div class="card-header pb-0">
+                      <div class="row">
+                        
+                            <label class="font-weight-bold mt-1">Filter tahun </label>
+
+                    
+                         <div class="col-md-3 ">
+                           
+                            <select class="form-control" id="Search-Dasboard-Status">
+                            </select>
+                         </div>
+                            <div class="col-md-12">
+                                <div id="main"></div>
+                            </div>
+
+                       </div>
+                        <hr />
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover" id="Program-table">
+                                        <thead class="bg-info white text-center">
+                                            <tr id="Program-Tr-Head">
+                                                <th width="5%" class="text-center">Status</th>
+                                                <th width="10%">Jan</th>
+                                            <th width="10%">Feb</th>
+                                            <th width="10%">Mart</th>
+                                            <th width="10%">Apr</th>
+                                            <th width="10%">Mei</th>
+                                            <th width="10%">Jun</th>
+                                            <th width="10%">Jul</th>
+                                            <th width="10%">Aug</th>
+                                            <th width="10%">sep</th>
+                                            <th width="10%">ock</th>
+                                            <th width="10%">Nov</th>
+                                            <th width="10%">Des</th>
+                                            <th width="10%">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="Program-tbody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-1 justify-content-between">
+                            <div class="col-md-7 align-self-center">
+                                <span class="d-inline-block mr-1">
+                                    <select class="form-control form-control-sm" id="Program-page_select">
+                                        <option value="5">5</option>
+                                        <option value="10" selected>10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </span>
+                                <span>
+                                    Showing <b id="Program-from_page"></b> To <b id="Program-to_page"></b> From <b id="Program-total"></b> Total Data
+                                </span>
+                            </div>
+                            <div class="col-md-5 align-self-center">
+                                <div class="float-right xs-1" id="Program-pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
+
+
+
+@section scripts{
+    @*<script type="text/javascript" src="@Url.Content("~/Content/app-assets/vendors/js/echarts/echarts-en.min-440rc1.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/app-assets/vendors/js/echarts/royal.js")"></script>
+   *@
+    <script type="text/javascript" src="@Url.Content("~/Scripts/helper.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Dashboard/Dashboard.js")"></script>
+}
+
+@*
+<div class="col-md-12">
+    <label class="">Filter Tahun</label>
+    <div class="input-group input-group-sm" id="Dashboard-Container">
+        <select class="form-control form-control-sm" id="Program-JenisProgram" style="height:33px;">
+            <option selected value="">-- All--</option>
+        </select>
+    </div>
+</div>*@
