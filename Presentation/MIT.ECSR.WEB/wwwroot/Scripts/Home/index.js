@@ -21,7 +21,8 @@ function OnChangeStatus(status) {
 
 function ListBanner() {
     RequestData('GET', '/v1/Banner/list', '#carousel-interval', '#carousel-interval', null, function (data) {
-        if (data.succeeded) {
+		if (data.succeeded) {
+			console.log(data)
             if (data.list.length > 0) {
                 var count = 0;
                 $('#carousel-interval').html('');

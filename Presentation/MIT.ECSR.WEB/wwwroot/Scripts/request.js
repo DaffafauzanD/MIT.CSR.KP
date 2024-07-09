@@ -1,7 +1,7 @@
 ﻿var cookie_token = "MIT.ECSR.token";
 
 function RequestData(type, url, container, field, params, callback, isJson = true, is_annonymous = false, is_append = false) {
-    var url_api = "http://api-ecsr.mediaindoteknologi.com/api";
+    var url_api = "https://localhost:44392/api";
     var token = getCookie(cookie_token);
 
     var config = {
