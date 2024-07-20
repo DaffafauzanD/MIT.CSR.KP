@@ -22,7 +22,7 @@ function ListKegiatan(page) {
     };
     RequestData('GET', `/v1/Penawaran/list_internal/${id_program}`, element.table, element.tbody, params, function (data) {
         if (data.succeeded) {
-            console.log(data);
+            console.log("data kegiatan",data);
             if (data.count > 0) {
                 SetTableData(true, 8, element, {
                     page: page,
@@ -36,8 +36,9 @@ function ListKegiatan(page) {
                                         <td class="text-center">${count}</td>
                                         <td>${item.item.nama}</td>
                                       <td class="text-right">Rp. ${formatNumber(item.item.rupiah)}</td>    
-                                        <td class="text-right">${item.item.jumlah} ${item.item.satuanUnit}</td>
-                                        <td class="text-right">${item.item.sisaJumlah} ${item.item.satuanUnit}</td>
+                                        <td class="text-right">${item.item.jumlah}</td>
+                                        <td class="text-right">${item.item.satuanUnit}</td>
+                                        <td class="text-right">${item.item.sisaJumlah}</td>
                                   </tr>
                             `);
                         item.penawaran.forEach(function (i) {
@@ -105,6 +106,7 @@ function ListPenawaran(page) {
     }
     RequestData('POST', '/v1/Penawaran/list_penawaran', element.table, element.tbody, JSON.stringify(params), function (data) {
         if (data.succeeded) {
+            console.log("data riwayat pengajuan", data)
             if (data.count > 0) {
                 SetTableData(true, 8, element, {
                     page: page,
@@ -139,7 +141,8 @@ function ListPenawaran(page) {
                                         <td class="text-center">${count}</td>
                                         <td>${item.perusahaan}</td>
                                         <td>${item.programItemName}</td>
-                                        <td class="text-right">${item.penawaran.jumlah} ${item.satuanUnit}</td>
+                                        <td class="text-right">${item.penawaran.jumlah}</td>
+                                        <td class="text-right">${item.satuanUnit}</td>
                                         <td class="text-right">${DateToStringFormat(item.createDate)}</td>
                                         <td>${status}</td>
                                   </tr>
