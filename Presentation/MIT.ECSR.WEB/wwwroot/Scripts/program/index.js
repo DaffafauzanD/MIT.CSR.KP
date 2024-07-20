@@ -75,7 +75,7 @@ function ListProgram(page) {
     }
     RequestData('POST', '/v1/Program/list', element.table, element.tbody, JSON.stringify(param), function (data) {
         if (data.succeeded) {
-            console.log(data);
+            console.log("data",data);
             if (data.list.length > 0) {
                 SetTableData(true, 8, element, {
                     page: page,
@@ -162,7 +162,7 @@ function ListProgram(page) {
                                         <td class="text-center">${item.notes ? item.notes : "-"}</td>
                                         <td class="text-center">${item.approvedBy ? item.approvedBy : "-"}</td>
                                         <td class="text-center">${item.approvedAt ? DateToStringFormat(item.updateDate) : "-"}</td>
-                                        <td class="text-center">-</td>
+                                        <td class="text-center">${item.createBy}</td>
                                         <td class="text-center">
                                             <div>
                                                 <button type="button" data-toggle="dropdown" class="btn btn-sm btn-info box-shadow-2" aria-hashpopup="true" aria-expanded="false"><i class="ft-list"></i></button>
