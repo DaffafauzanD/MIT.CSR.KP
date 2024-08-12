@@ -37,8 +37,37 @@
 
 	<div class="col-12">
 		<div class="row">
-			<div class="col-sm-12 col-md-8 col-lg-8 col-xl-8 my-1">
+			<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 my-1">
+				<div class="card" id="top_company">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+								<h3>Top 5 Company CSR</h3>
+							</div>
+						</div>
+						<div class="media-list media-bordered" id="top_company_body">
+						</div>
+					</div>
+				</div>
 				<div class="card" id="rekap_program">
+					<div class="card-body">
+						<div class="media-list">
+							<div class="media mt-1 rounded" style="background-color: #CAF1C0;">
+								<a class="media-left" href="#">
+									<h1 class="text-center">On Progress</h1>
+									<h2 class="text-center" id="rekap_program-on_progress">0</h2>
+								</a>
+								<div class="media-body">
+									<h1 class="text-center">Done</h1>
+									<h2 class="text-center" id="rekap_program-done">0</h2>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card col-sm-12 col-md-8 col-lg-8 col-xl-8 my-1">
+				@*<div class="card" id="rekap_program">
 					<div class="row py-3">
 						<div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
 							<h1 class="text-center">On Progress</h1>
@@ -53,35 +82,31 @@
 						</div>
 
 					</div>
-				</div>
-				<div class="card py-2">
-					<nav class="nav">
-						<a class="nav-link" onclick="OnChangeStatus('all')"><h3><span class="program_status badge badge-info" id="program_status_label-all">All</span></h3></a>
-						<a class="nav-link" onclick="OnChangeStatus('done')"><h3><span class="program_status" id="program_status_label-done">Done</span></h3></a>
-						<a class="nav-link" onclick="OnChangeStatus('on_progress')"><h3><span class="program_status" id="program_status_label-on_progress">On Progress</span></h3></a>
-					</nav>
+				</div>*@
+				<div class="card card-primary card-outline card-outline-tabs">
+					<div class="card-header p-0 border-bottom-0">
+						<ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist" style="border-bottom: none !important">
+							<li class="nav-item">
+								<a class="nav-link" onclick="OnChangeStatus('all')"><h3><span class="program_status badge badge-info" id="program_status_label-all" style="background-color: #ADB4D0  !important;">All</span></h3></a>
+
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" onclick="OnChangeStatus('done')"><h3><span class="program_status" id="program_status_label-done" style="background-color: #ADB4D0  !important;">Done</span></h3></a>
+
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" onclick="OnChangeStatus('on_progress')"><h3><span class="program_status" id="program_status_label-on_progress" style="background-color: #ADB4D0  !important;">On Progress</span></h3></a>
+
+							</li>
+						</ul>
+					</div>
 				</div>
 				<div class="content-wrapper">
 					<div class="row" id="program_list">
-
 						<div class="row" id="show_more_program">
 							<div class="col-12 d-flex justify-content-center">
 								<button class="btn btn-info" onClick="ListProgram()" hidden>Show More</button>
 							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 my-1">
-				<div class="card" id="top_company">
-					<div class="card-body">
-						<div class="row">
-							<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-								<h3>Top 5 Company CSR</h3>
-							</div>
-						</div>
-						<div class="media-list media-bordered" id="top_company_body">
-							
 						</div>
 					</div>
 				</div>

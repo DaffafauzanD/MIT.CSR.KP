@@ -65,9 +65,9 @@ function ListBanner() {
 function GetRekap() {
 	RequestData('GET', '/v1/Report/rekap_home', '#rekap_program', null, null, function (data) {
 		if (data.succeeded) {
-			$('#rekap_program-on_progress').html(`${formatNumber(data.data.onProgress) } Kegiatan`);
+			$('#rekap_program-on_progress').html(`${formatNumber(data.data.onProgress) }`);
 			$('#rekap_program-on_progress_rupiah').html(`Rp. ${formatNumber(data.data.onProgressRupiah)}`);
-			$('#rekap_program-done').html(`${formatNumber(data.data.done)} Kegiatan`);
+			$('#rekap_program-done').html(`${formatNumber(data.data.done)}`);
 			$('#rekap_program-done_rupiah').html(`Rp. ${formatNumber(data.data.doneRupiah) }`);
 		} else {
 			ShowNotif(`${data.message} : ${data.description}`, "error");
@@ -78,19 +78,21 @@ function GetRekap() {
 function ListCompany() {
 	RequestData('GET', '/v1/report/top_company', '#top_company_body', '#top_company_body', null, function (data) {
 		if (data.succeeded) {
+			var count = 1;
 			$('#top_company_body').html('');
 			if (data.list.length > 0) {
 				data.list.forEach(function (item) {
 					var img = item.logo != null ? item.logo.resize : `${window.location.origin}/Content/images/no_image.jpg`;
-					$('#top_company_body').append(`<div class="media">
+					$('#top_company_body').append(`<div class="media mt-1 rounded" style="background-color: #CAF1C0;">
 												<a class="media-left" href="#">
-													<img src="${img}" alt="Generic placeholder image" height="64" width="64">
+													<h4>${count}</h4>
 												</a>
 												<div class="media-body">
 													<h4 class="media-heading">${item.company.namaPerusahaan}</h4>
 													Rp. ${formatNumber(item.rupiah)}
 												</div>
 											</div>`);
+					count++;
 				});
 			} else {
 			}
@@ -128,7 +130,7 @@ function ListProgram() {
 				data.list.forEach(function (item) {
 					var img = item.photo != null ? item.photo.resize : `${window.location.origin}/Content/images/no_image.jpg`;
 					$('#program_list').append(`<div class="d-flex col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-1">
-													<div class="card">
+													<div class="card" style="box-shadow: 0px 1px 15px 1px rgba(62, 57, 107, 0.07); !important">
 														<img src="${img}" class="card-img-top">
 														<div class="card-body">
 															<h4 class="card-title mb-0 font-weight-bold">${item.namaProgram.nama}</h4>
